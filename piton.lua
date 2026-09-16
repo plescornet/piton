@@ -20,7 +20,7 @@
 -- -------------------------------------------
 -- 
 -- This file is part of the LuaLaTeX package 'piton'.
-piton_version = "4.14x" -- 2026/08/14
+piton_version = "4.14y" -- 2026/09/16
 piton.comment_latex = piton.comment_latex or ">"
 piton.comment_latex = "#" .. piton.comment_latex
 piton.write_files = { }
@@ -299,7 +299,12 @@ local EOL =
     +
     Cc "EOL"
   )
-  * ( LeadingSpace ^ 0 * # ( 1 - S " \r" ) ) ^ -1
+  *
+  (
+    Prompt -- added 2026-09-16 gh #55
+    +
+    ( LeadingSpace ^ 0 * # ( 1 - S " \r" ) ) ^ -1
+  )
 local CommentLaTeX =
   P ( piton.comment_latex )
   * Lc [[{\PitonStyle{Comment.LaTeX}{\ignorespaces]]
@@ -572,7 +577,7 @@ do
        + Beamer
        + CommentLaTeX
        + DetectedCommands
-       + Prompt
+       -- + Prompt -deleted 2026-09-16 : gh #55
        + LongString
        + Comment
        + ExceptionInConsole
@@ -597,6 +602,7 @@ do
     Ct (
          ( space ^ 0 * "\r" ) ^ -1
          * Lc [[ \__piton_begin_line: ]]
+         * Prompt ^ -1 -- added 2026-09-16 gh #55
          * LeadingSpace ^ 0
          * ( space ^ 1 * -1 + Main ) ^ 0
          * -1

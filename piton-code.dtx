@@ -60,12 +60,12 @@
 % \iffalse
 %<*STY>
 % \fi
-\def\PitonFileVersion{4.14x}
-\def\PitonFileDate{2026/08/14}
+\def\PitonFileVersion{4.14y}
+\def\PitonFileDate{2026/09/16}
 % \iffalse
 %</STY>
 %<*LUA>
-piton_version = "4.14x" -- 2026/08/14
+piton_version = "4.14y" -- 2026/09/16
 %</LUA>
 %\fi
 %
@@ -5542,7 +5542,12 @@ local EOL =
     + 
     Cc "EOL" 
   )
-  * ( LeadingSpace ^ 0 * # ( 1 - S " \r" ) ) ^ -1
+  *
+  (
+    Prompt -- added 2026-09-16 gh #55
+    + 
+    ( LeadingSpace ^ 0 * # ( 1 - S " \r" ) ) ^ -1
+  )
 %    \end{macrocode}
 %
 % 
@@ -6066,7 +6071,7 @@ do
        + Beamer
        + CommentLaTeX
        + DetectedCommands
-       + Prompt
+       -- + Prompt -deleted 2026-09-16 : gh #55
        + LongString 
        + Comment
        + ExceptionInConsole
@@ -6105,6 +6110,7 @@ do
     Ct (
          ( space ^ 0 * "\r" ) ^ -1 
          * Lc [[ \@@_begin_line: ]]
+         * Prompt ^ -1 -- added 2026-09-16 gh #55
          * LeadingSpace ^ 0 
          * ( space ^ 1 * -1 + Main ) ^ 0 
          * -1 
